@@ -5,7 +5,7 @@ from collections import deque
 
 # Hyper Parameters:
 FRAME_PER_ACTION = 1
-GAMMA = 0.95 # decay rate of past observations
+GAMMA = 0.99 # decay rate of past observations
 OBSERVE = 50000. # timesteps to observe before training
 EXPLORE = 1000000. # frames over which to anneal epsilon
 FINAL_EPSILON = 0.1#0.001 # final value of epsilon
@@ -16,7 +16,7 @@ UPDATE_TIME = 10000
 
 class QAgent:
 
-	def __init__(self,actions):
+    def __init__(self,actions):
 		# init replay memory
 		self.replayMemory = deque()
 		# init some parameters
@@ -187,3 +187,11 @@ class QAgent:
 
 	def max_pool_2x2(self,x):
 		return tf.nn.max_pool(x, ksize = [1, 2, 2, 1], strides = [1, 2, 2, 1], padding = "SAME")
+    
+    def plot_cost(self):
+        import matplotlib.pyplot as plt
+        plt.plot(np.arange(len(self.cost)), self.cost)
+        plt.ylabel('Cost')
+        plt.xlabel('training steps')
+        plt.show()
+
